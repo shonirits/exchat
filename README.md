@@ -73,7 +73,12 @@ Push Notifications
 Sound for Notification  
 Profile Update  
 Location Update
+  
 
+# Miscellaneous
+flutter.minSdkVersion=23  
+flutter.targetSdkVersion=34  
+flutter.compileSdkVersion=34    
 
 # Screenshots
 Take a closer look to get to know about some of the app features
