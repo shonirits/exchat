@@ -92,4 +92,5 @@ Windows Background App Updates.
 We heartily welcome contributions from the community to elevate the project. Share your insights, submit those bug reports, request features, and send those pull requests to make WhatsUp shine even brighter.
 
 # Known Issues
-Android background notifications: When app is closed or not in used or on ditched mode, notifications not working properly on Android. 
+Android background notifications: When app is closed or not in used or on ditched mode, notifications not working properly on Android.  
+Ads: Facebook ads not displaying
