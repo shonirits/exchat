@@ -91,11 +91,14 @@ Windows: https://apps.microsoft.com/detail/9nm4006f01kj?hl=en-us&gl=US
 # Next Future Scope
 Performance, Stability, and Reliability Improvements.  
 Windows Push Notifications.  
-Windows Background App Updates.
+Windows Background App Updates.  
+Chat Room Admin
 
 # Contribute and Elevate
 We heartily welcome contributions from the community to elevate the project. Share your insights, submit those bug reports, request features, and send those pull requests to make WhatsUp shine even brighter.
 
 # Known Issues
 Android background notifications: When app is closed or not in used or on ditched mode, notifications not working properly on Android.  
-Ads: Facebook ads not displaying
+Ads: Facebook ads not displaying  
+Chat room details not opening  
+Chat room admin unable to remove/block other users
