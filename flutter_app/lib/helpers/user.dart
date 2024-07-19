@@ -198,6 +198,8 @@ await _dataServices.saveValue('isFree', 'true');
                   totalParticipants: jsonData?.totalParticipants,
                   totalMessages: jsonData?.totalMessages,
                   lastMessageAt: jsonData?.lastMessageAt,
+                  admin: jsonData?.admin,
+                  joined: jsonData?.joined,
               );
 
            final isChatExist = chatBox.values.where((elementChat) => elementChat.chatId == jsonData?.chatId);
@@ -209,6 +211,8 @@ await _dataServices.saveValue('isFree', 'true');
                 chatRow.totalParticipants = jsonData?.totalParticipants;
                 chatRow.totalMessages = jsonData?.totalMessages;
                 chatRow.lastMessageAt = jsonData?.lastMessageAt;
+                chatRow.admin = jsonData?.admin;
+                chatRow.joined = jsonData?.joined;
                 chatRow.save();
               }else{
                 chatBox.add(data);
@@ -1008,6 +1012,7 @@ await _dataServices.saveValue('isFree', 'true');
                   lastEntryAt: room.value.lastEntryAt,
                   lastExitAt: room.value.lastExitAt,
                   totalUsers: room.value.totalUsers,
+                  admin: room.value.admin,
                   joined: room.value.joined,
               );
 
@@ -1023,6 +1028,7 @@ await _dataServices.saveValue('isFree', 'true');
                 roomRow.lastExitAt = room.value.lastExitAt;
                 roomRow.totalUsers = room.value.totalUsers;
                 roomRow.joined = room.value.joined;
+                roomRow.admin = room.value.admin;
 
                 roomRow.save();
 
@@ -1050,6 +1056,8 @@ await _dataServices.saveValue('isFree', 'true');
                   totalParticipants: chat.value.totalParticipants,
                   totalMessages: chat.value.totalMessages,
                   lastMessageAt: chat.value.lastMessageAt,
+                  admin: chat.value.admin,
+                  joined: chat.value.joined,
               );
 
               final chatBox = ChatsBox.getData();
@@ -1059,10 +1067,11 @@ await _dataServices.saveValue('isFree', 'true');
               if(isChatExist.isNotEmpty){
 
                 final chatRow =  isChatExist.first;
-
                 chatRow.totalParticipants = chat.value.totalParticipants;
                 chatRow.totalMessages = chat.value.totalMessages;
                 chatRow.lastMessageAt = chat.value.lastMessageAt;
+                chatRow.admin = chat.value.admin;
+                chatRow.joined = chat.value.joined;
                 chatRow.save();
 
               }else{

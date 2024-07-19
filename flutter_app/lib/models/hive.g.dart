@@ -113,14 +113,15 @@ class RoomsInfoModelAdapter extends TypeAdapter<RoomsInfoModel> {
       lastEntryAt: fields[2] as String?,
       lastExitAt: fields[3] as String?,
       totalUsers: fields[4] as String?,
-      joined: fields[5] as String?,
+      admin: fields[5] as String?,
+      joined: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, RoomsInfoModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.roomId)
       ..writeByte(1)
@@ -132,6 +133,8 @@ class RoomsInfoModelAdapter extends TypeAdapter<RoomsInfoModel> {
       ..writeByte(4)
       ..write(obj.totalUsers)
       ..writeByte(5)
+      ..write(obj.admin)
+      ..writeByte(6)
       ..write(obj.joined);
   }
 
@@ -165,14 +168,15 @@ class ChatsInfoModelAdapter extends TypeAdapter<ChatsInfoModel> {
       totalParticipants: fields[5] as String?,
       totalMessages: fields[6] as String?,
       lastMessageAt: fields[7] as String?,
-      joined: fields[8] as String?,
+      admin: fields[8] as String?,
+      joined: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ChatsInfoModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.chatId)
       ..writeByte(1)
@@ -190,6 +194,8 @@ class ChatsInfoModelAdapter extends TypeAdapter<ChatsInfoModel> {
       ..writeByte(7)
       ..write(obj.lastMessageAt)
       ..writeByte(8)
+      ..write(obj.admin)
+      ..writeByte(9)
       ..write(obj.joined);
   }
 

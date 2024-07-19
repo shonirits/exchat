@@ -129,6 +129,8 @@ class RoomsInfoModel extends HiveObject {
     @HiveField(4)
     String? totalUsers;
     @HiveField(5)
+    String? admin;
+    @HiveField(6)
     String? joined;   
 
   RoomsInfoModel({
@@ -137,6 +139,7 @@ class RoomsInfoModel extends HiveObject {
         this.lastEntryAt,
         this.lastExitAt,
         this.totalUsers,
+        this.admin,
         this.joined,
   }) ;
 
@@ -163,6 +166,8 @@ class ChatsInfoModel extends HiveObject {
     @HiveField(7)
     String? lastMessageAt;
     @HiveField(8)
+    String? admin;
+    @HiveField(9)
     String? joined; 
 
   ChatsInfoModel({
@@ -174,6 +179,7 @@ class ChatsInfoModel extends HiveObject {
         this.totalParticipants,
         this.totalMessages,
         this.lastMessageAt,
+        this.admin,
         this.joined,
   }) ;
 

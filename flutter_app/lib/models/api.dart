@@ -547,6 +547,7 @@ class Chat {
     String? totalParticipants;
     String? totalMessages;
     String? lastMessageAt;
+    String? admin;
     String? joined;
 
     Chat({
@@ -558,6 +559,7 @@ class Chat {
         this.totalParticipants,
         this.totalMessages,
         this.lastMessageAt,
+        this.admin,
         this.joined,
     });
 
@@ -570,6 +572,7 @@ class Chat {
         totalParticipants: json["total_participants"],
         totalMessages: json["total_messages"],
         lastMessageAt: json["last_message_at"],
+        admin: json["admin"],
         joined: json["joined"],
     );
 
@@ -582,6 +585,7 @@ class Chat {
         "total_participants": totalParticipants,
         "total_messages": totalMessages,
         "last_message_at": lastMessageAt,
+        "admin": admin,
         "joined": joined,
     };
 }
@@ -652,6 +656,7 @@ class Room {
     String? lastEntryAt;
     String? lastExitAt;
     String? totalUsers;
+    String? admin;
     String? joined;
 
     Room({
@@ -660,6 +665,7 @@ class Room {
         this.lastEntryAt,
         this.lastExitAt,
         this.totalUsers,
+        this.admin,
         this.joined,
     });
 
@@ -669,6 +675,7 @@ class Room {
         lastEntryAt: json["last_entry_at"],
         lastExitAt: json["last_exit_at"],
         totalUsers: json["total_users"],
+        admin: json["admin"],
         joined: json["joined"],
     );
 
@@ -678,6 +685,7 @@ class Room {
         "last_entry_at": lastEntryAt,
         "last_exit_at": lastExitAt,
         "total_users": totalUsers,
+        "admin": admin,
         "joined": joined,
     };
 }
