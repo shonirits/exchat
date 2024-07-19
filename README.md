@@ -73,7 +73,12 @@ Push Notifications
 Sound for Notification  
 Profile Update  
 Location Update
+  
 
+# Miscellaneous
+flutter.minSdkVersion=23  
+flutter.targetSdkVersion=34  
+flutter.compileSdkVersion=34    
 
 # Screenshots
 Take a closer look to get to know about some of the app features
@@ -92,4 +97,5 @@ Windows Background App Updates.
 We heartily welcome contributions from the community to elevate the project. Share your insights, submit those bug reports, request features, and send those pull requests to make WhatsUp shine even brighter.
 
 # Known Issues
-Android background notifications: When app is closed or not in used or on ditched mode, notifications not working properly on Android. 
+Android background notifications: When app is closed or not in used or on ditched mode, notifications not working properly on Android.  
+Ads: Facebook ads not displaying
