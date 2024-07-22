@@ -304,7 +304,7 @@ void setState(VoidCallback fn){
 
                   final messageKey = message.key;
                   
-                  User().deleteMessage(messageKey);
+                  messageBox.delete(messageKey);
 
                 }            
   
@@ -320,7 +320,7 @@ void setState(VoidCallback fn){
 
                   final chatKey = chat.key;
                   
-                  User().deleteChat(chatKey);
+                  chatBox.delete(chatKey);
 
                 }
   
@@ -426,7 +426,7 @@ void setState(VoidCallback fn){
 
                   final messageKey = message.key;
                   
-                  User().deleteMessage(messageKey);
+                  messageBox.delete(messageKey);
 
                 });            
   
@@ -528,7 +528,7 @@ void setState(VoidCallback fn){
 
                   final messageKey = message.key;
                   
-                  User().deleteMessage(messageKey);
+                  messageBox.delete(messageKey);
 
                 }
   
@@ -544,7 +544,7 @@ void setState(VoidCallback fn){
 
                   final chatKey = chat.key;
                   
-                  User().deleteChat(chatKey);
+                  chatBox.delete(chatKey);
 
                 }
   

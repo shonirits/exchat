@@ -34,7 +34,7 @@ class _ChatAcceptCardState extends State<ChatAcceptCard> {
     final _notification = widget.notification;
     final _selfInfo = widget.selfInfo;
 
-    _subTitle = momentTime(_notification.addedAt);
+    _subTitle = momentTime(_notification.addedAt, true);
 
 
     if(_notification.notificationStatus == '0'){

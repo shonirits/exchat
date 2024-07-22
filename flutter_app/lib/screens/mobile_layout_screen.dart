@@ -86,9 +86,17 @@ class _MobileLayoutScreenState extends State<MobileLayoutScreen> with WidgetsBin
 
        await _dataServices.saveValue('isFree', 'false');
 
-       Future.delayed(Duration.zero, () {
+       Future.delayed(Duration.zero, () async {
     //for showing progress bar
     Dialogs.showProgressBar(context);
+
+    if(_isConnected != true && selfInfo != null) {
+    await User().isConnected(selfInfo, _latitude, _longitude).then((connectedValue) async {             
+               setState(() {
+                  _isConnected = connectedValue;
+                });
+          });
+      }                 
       
      _timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
       activeTimer(_isProgressBar).then((activeTimerValue) {
@@ -240,7 +248,7 @@ void setState(VoidCallback fn){
      await User().liveListing().then((isDone) async {
 
       setState(() {
-                  _isConnected = isDone;
+                  _isConnected = true;
                 });
 
       _timer = Timer.periodic(Duration(seconds: _seconds), (timer) {
@@ -1131,8 +1139,8 @@ Widget bannerAdWidget() {
            var data = box.values.toList().cast<ChatsInfoModel>();
 
           data.sort((a, b) {
-            var atime = DateTime.parse(localTimeFull(a.lastMessageAt!)).microsecondsSinceEpoch;
-            var btime = DateTime.parse(localTimeFull(b.lastMessageAt!)).microsecondsSinceEpoch;
+            var atime = DateTime.parse(localTimeFull(a.lastMessageAt!, true)).microsecondsSinceEpoch;
+            var btime = DateTime.parse(localTimeFull(b.lastMessageAt!, true)).microsecondsSinceEpoch;
             return btime.compareTo(atime);
           });
 

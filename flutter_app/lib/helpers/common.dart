@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -19,9 +20,13 @@ int getRand(input){
 }
 
 
-String localTime(timestamp){
+String localTime(timestamp, convert){
 
- var microSeconds = int.parse('${timestamp}000000');
+var microSeconds = int.parse(timestamp);
+
+  if(convert == true){
+  microSeconds = int.parse('${timestamp}000000');
+  }
 
 var dt = DateTime.fromMicrosecondsSinceEpoch(microSeconds);
 
@@ -31,9 +36,13 @@ return response.toString();
 
 }
 
-String localTimeFull(timestamp){
+String localTimeFull(timestamp, convert){
 
- var microSeconds = int.parse('${timestamp}000000');
+  var microSeconds = int.parse(timestamp);
+
+  if(convert == true){
+ microSeconds = int.parse('${timestamp}000000');
+  }
 
  var dt = DateTime.fromMicrosecondsSinceEpoch(microSeconds);
 
@@ -44,9 +53,13 @@ String localTimeFull(timestamp){
 }
 
 
-String momentTime(timestamp){
+String momentTime(timestamp, convert){
 
-var microSeconds = int.parse('${timestamp}000');
+var microSeconds = int.parse(timestamp);
+
+if(convert == true){
+microSeconds = int.parse('${timestamp}000');
+}
 
 var dt = DateTime.fromMicrosecondsSinceEpoch(microSeconds);
 

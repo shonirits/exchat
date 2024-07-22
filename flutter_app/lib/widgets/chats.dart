@@ -162,7 +162,7 @@ class _ChatsCardState extends State<ChatsCard> {
                 trailing:  Column(children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                    child: Text(localTime(_chat.lastMessageAt),
+                    child: Text(localTime(_chat.lastMessageAt, true),
                       style: const TextStyle(
                     color: quaternaryTextColor
                     ),

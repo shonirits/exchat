@@ -21,6 +21,9 @@ final _preferencesServices = PreferencesServices();
 const notificationChannelId = 'silent_notification_channel';
 const notificationId = 6426;
 
+ int periodicSeconds = 30;
+ int delayedSeconds = 10;
+
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
@@ -38,11 +41,7 @@ void onStart(ServiceInstance service) async {
     service.on('stopService').listen((event) {
       service.stopSelf();
     });  
-  Timer.periodic(const Duration(seconds: 51), (timer) async {
-final sPers = await SharedPreferences.getInstance();
-  await sPers.reload();
-  final _state = sPers.getString('state') ?? ''; 
-  if(_state != 'opened' && _state != 'resumed' && _state != 'inactive' && _state != 'hidden' && _state != 'paused'){
+  Timer.periodic(Duration(seconds: periodicSeconds), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
     flutterLocalNotificationsPlugin.show(
@@ -60,19 +59,31 @@ final sPers = await SharedPreferences.getInstance();
             ),
           ),
         );
-   Future.delayed(const Duration(seconds: 17), () async {
+   Future.delayed(Duration(seconds: delayedSeconds), () async {
+    final sPers = await SharedPreferences.getInstance();
+  await sPers.reload();
+  final _state = sPers.getString('state') ?? '';
+    if(_state != 'opened' && _state != 'resumed' && _state != 'inactive' && _state != 'hidden' && _state != 'paused' && _state != 'signout'){
     await hiveInitialize().then((intReturn) async {
 callbackOnStart();
     });
+    }
    });
       }
     } 
+    final sPersd = await SharedPreferences.getInstance();
+  await sPersd.reload();
+  final _stated = sPersd.getString('state') ?? '';
+    if(_stated != 'opened' && _stated != 'resumed' && _stated != 'inactive' && _stated != 'hidden' && _stated != 'paused' && _stated != 'signout'){
 await hiveInitialize().then((intReturn) async {
 callbackOnStart();
 });
+    }
 service.invoke('update');
-  }
-
+if(periodicSeconds < 50){
+        periodicSeconds = periodicSeconds + 3;
+        delayedSeconds = delayedSeconds + 1;
+      }
   });
 }
 

@@ -547,7 +547,7 @@ class Chat {
     String? totalParticipants;
     String? totalMessages;
     String? lastMessageAt;
-    String? admin;
+    String? adminId;
     String? joined;
 
     Chat({
@@ -559,7 +559,7 @@ class Chat {
         this.totalParticipants,
         this.totalMessages,
         this.lastMessageAt,
-        this.admin,
+        this.adminId,
         this.joined,
     });
 
@@ -572,7 +572,7 @@ class Chat {
         totalParticipants: json["total_participants"],
         totalMessages: json["total_messages"],
         lastMessageAt: json["last_message_at"],
-        admin: json["admin"],
+        adminId: json["admin_id"],
         joined: json["joined"],
     );
 
@@ -585,7 +585,7 @@ class Chat {
         "total_participants": totalParticipants,
         "total_messages": totalMessages,
         "last_message_at": lastMessageAt,
-        "admin": admin,
+        "admin_id": adminId,
         "joined": joined,
     };
 }

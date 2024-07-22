@@ -37,13 +37,84 @@ class _MessagesCardState extends State<MessagesCard> {
 
     bool isMe = _selfInfo?.userId == _message.userId;
 
+    if(_message.messageType == 'system'){
+
+      return _systemMessage();
+
+    }else{
+
     return isMe ? _myMessage() : _recipientMessage();
+
+    }
   }
 
   Future<void> _onOpen(LinkableElement link) async {
     if (!await launchUrl(Uri.parse(link.url))) {
       throw Exception('Could not launch ${link.url}');
     }
+  }
+
+  Widget _systemMessage() {
+
+    final int _id = widget.id;
+    final _message = widget.message;
+    bool _isUserExist = false;
+    Color _statusColor = senaryTextColor;
+    var _recipient;
+    var nickname = '';
+    final userId =_message.userId;
+
+    final usersBox = UsersBox.getData();
+    final isUserExist = usersBox.values.where((elementUser) => elementUser.userId == userId);
+
+    if(isUserExist.isNotEmpty){
+      _isUserExist = true;
+      _recipient =  isUserExist.first;
+      _genderDP = User.userGenderDP(_recipient.gender);
+      _statusColor = User.userStatusColor(_recipient.status);
+      nickname = _recipient.nickname;
+    }
+
+    return Container(
+      alignment: Alignment.topCenter,
+      padding: const EdgeInsets.all(2),
+  child: Flexible(
+              child: Column(
+                children: [
+                           Text(localTime(_message.sentAt, false), 
+                          style: TextStyle(decoration: TextDecoration.none, fontSize: 12, color: activeBGColor)),
+                  Container(
+                    padding: EdgeInsets.all(mq.width * .02),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: mq.width * .02, vertical: mq.height * .01),
+                    decoration: const BoxDecoration(
+                        color: tertiaryBGColor,
+                        //making borders curved
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Row(           
+                              children: [
+                               CircleAvatar(
+                      backgroundColor: _statusColor,
+                    radius: mq.height * .019,
+                    child: CircleAvatar(
+                        radius: mq.height * .017,
+                        backgroundImage: AssetImage(_genderDP),
+                      ),
+                  ),
+                  SizedBox(width: mq.width * .02),
+                        Text(nickname, 
+                          style: TextStyle(decoration: TextDecoration.none, fontSize: 14, fontWeight: FontWeight.bold, color: activeBGColor)),
+                        SizedBox(width: mq.width * .01),
+                        Text(_message.messageContent, 
+                          style: TextStyle(decoration: TextDecoration.none, fontSize: 14, color: activeBGColor)),
+                      ],
+                    )
+                  ),
+                ],
+              )
+  ),
+    );
+
   }
 
 
@@ -183,7 +254,7 @@ class _MessagesCardState extends State<MessagesCard> {
                           showCursor: true,
                           ),
                           SizedBox(height: mq.height * .005),
-                           Text(localTime(_message.sentAt), 
+                           Text(localTime(_message.sentAt, true), 
                           style: TextStyle(decoration: TextDecoration.none, fontSize: 11, color: mutedTextColor)),
                         ],
                       )
@@ -209,7 +280,7 @@ class _MessagesCardState extends State<MessagesCard> {
                             )),
                           ),
                           SizedBox(height: mq.height * .005),
-                           Text(localTime(_message.sentAt), 
+                           Text(localTime(_message.sentAt, true), 
                           style: TextStyle(decoration: TextDecoration.none, fontSize: 11, color: mutedTextColor)),
                       ],
                     ),
@@ -318,7 +389,7 @@ class _MessagesCardState extends State<MessagesCard> {
                           showCursor: true,
                           ),
                            SizedBox(height: mq.height * .005),
-                           Text(localTime(_message.sentAt), 
+                           Text(localTime(_message.sentAt, _message.messageStatus == 0 ?false:true), 
                           style: TextStyle(decoration: TextDecoration.none, fontSize: 11, color: senaryTextColor)),
                         ],
                       )
@@ -344,7 +415,7 @@ class _MessagesCardState extends State<MessagesCard> {
                             )),
                           ),
                            SizedBox(height: mq.height * .005),
-                           Text(localTime(_message.sentAt), 
+                           Text(localTime(_message.sentAt, true), 
                           style: TextStyle(decoration: TextDecoration.none, fontSize: 11, color: mutedTextColor)),
                       ],
                     ),

@@ -1,3 +1,4 @@
+import 'package:exchat/helpers/crud.dart';
 import '../models/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +22,8 @@ class RoomsCard extends StatefulWidget {
 }
 
 class _RoomsCardState extends State<RoomsCard> {
+
+  final _dataServices = DataServices();
 
  bool _isJoined = false;
 
@@ -125,11 +128,15 @@ class _RoomsCardState extends State<RoomsCard> {
                   splashColor: Colors.transparent,
                   onTap: () {                  
 
-                   _joinRoom(_selfInfo, _room?.roomId, _id);
+                   _joinRoom(_selfInfo, _room?.roomId, _id).then((isJoined) async {
+
+                    await _dataServices.saveValue('isFree', 'true');
 
                     setState(() {
-                      _isJoined = true;
-                    });    
+                      _isJoined = isJoined;
+                    });
+
+                   });                        
 
                   },
                   child: FaIcon(FontAwesomeIcons.rightToBracket, size: 20, color: primaryTextColor,),

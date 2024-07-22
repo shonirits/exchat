@@ -69,24 +69,12 @@ class SelfInfoModel extends HiveObject {
     @HiveField(9)
     String? status;
     @HiveField(10)
-    String? statusChange;
-    @HiveField(11)
-    String? timeOut;
-    @HiveField(12)
-    String? lastUpdateAt;
-    @HiveField(13)
-    String? lastMomentAt;
-    @HiveField(14)
     String? lastSeenAt;
-    @HiveField(15)
+    @HiveField(11)
     String? latitude;
-    @HiveField(16)
+    @HiveField(12)
     String? longitude;
-    @HiveField(17)
-    String? createdAt;
-    @HiveField(18)
-    String? createdIp;
-    @HiveField(19)
+    @HiveField(13)
     String? offset;
 
   SelfInfoModel({
@@ -100,15 +88,9 @@ class SelfInfoModel extends HiveObject {
         this.agefrom,
         this.ageto,
         this.status,
-        this.statusChange,
-        this.timeOut,
-        this.lastUpdateAt,
-        this.lastMomentAt,
         this.lastSeenAt,
         this.latitude,
         this.longitude,
-        this.createdAt,
-        this.createdIp,
         this.offset,
   }) ;
 
@@ -132,6 +114,7 @@ class RoomsInfoModel extends HiveObject {
     String? admin;
     @HiveField(6)
     String? joined;   
+    
 
   RoomsInfoModel({
     this.roomId,
@@ -166,7 +149,7 @@ class ChatsInfoModel extends HiveObject {
     @HiveField(7)
     String? lastMessageAt;
     @HiveField(8)
-    String? admin;
+    String? adminId;
     @HiveField(9)
     String? joined; 
 
@@ -179,7 +162,7 @@ class ChatsInfoModel extends HiveObject {
         this.totalParticipants,
         this.totalMessages,
         this.lastMessageAt,
-        this.admin,
+        this.adminId,
         this.joined,
   }) ;
 

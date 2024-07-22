@@ -55,6 +55,8 @@ class User {
 
         Box<SelfInfoModel> selfInfoBox = Hive.box<SelfInfoModel>('self');
 
+           if(selfInfoBox.isNotEmpty){   
+
         if(_keys.length > 0 && selfInfoBox.length > 0){
 
          final self_info_db = selfInfoBox.getAt(0);
@@ -76,6 +78,12 @@ class User {
           return null;
 
         }
+
+           }else{
+
+            return null;
+
+           }
 
   }
 
@@ -198,7 +206,7 @@ await _dataServices.saveValue('isFree', 'true');
                   totalParticipants: jsonData?.totalParticipants,
                   totalMessages: jsonData?.totalMessages,
                   lastMessageAt: jsonData?.lastMessageAt,
-                  admin: jsonData?.admin,
+                  adminId: jsonData?.adminId,
                   joined: jsonData?.joined,
               );
 
@@ -211,7 +219,7 @@ await _dataServices.saveValue('isFree', 'true');
                 chatRow.totalParticipants = jsonData?.totalParticipants;
                 chatRow.totalMessages = jsonData?.totalMessages;
                 chatRow.lastMessageAt = jsonData?.lastMessageAt;
-                chatRow.admin = jsonData?.admin;
+                chatRow.adminId = jsonData?.adminId;
                 chatRow.joined = jsonData?.joined;
                 chatRow.save();
               }else{
@@ -325,11 +333,13 @@ Future<dynamic> liveListing() async {
 
   if(selfInfo != null){
 
-try {        
+try {       
 
     final getStreamResult = await Api().getUrl('${apiUrl}chat?app_public_key=$apiPublicKey&app_secret_key=$apiSecretKey&user_public_key=${selfInfo!.publicKey}&user_secret_key=${selfInfo!.secretKey}&do=stream');
 
       if (getStreamResult != null) {
+
+    final timestamp = DateTime.now().microsecondsSinceEpoch; 
 
     final jsonStreamResult = streamChatFromJson(getStreamResult);
 
@@ -422,6 +432,57 @@ try {
               }else if(streamAllPush.parentType == 'room_exit'){
 
                User().roomExit(streamAllPush.parentId, streamAllPush.subId);
+
+               final data = MessagesInfoModel(
+                  messageId: streamAllPush.pushId,
+                  chatId: streamAllPush.parentId,
+                  userId: streamAllPush.subId,
+                  messageType: 'system',
+                  messageContent: 'leave the room',
+                  messageStatus: '3',
+                  token: streamAllPush.pushId,
+                  sentAt: timestamp.toString(),
+                  deliveredAt: timestamp.toString(),
+                  readAt: timestamp.toString(),
+                  );
+
+               messagesUpdate(data, selfInfo);
+
+              }else if(streamAllPush.parentType == 'room_join'){
+
+                 final data = MessagesInfoModel(
+                  messageId: streamAllPush.pushId,
+                  chatId: streamAllPush.parentId,
+                  userId: streamAllPush.subId,
+                  messageType: 'system',
+                  messageContent: 'join the room',
+                  messageStatus: '3',
+                  token: streamAllPush.pushId,
+                  sentAt: timestamp.toString(),
+                  deliveredAt: timestamp.toString(),
+                  readAt: timestamp.toString(),
+                  );
+
+               messagesUpdate(data, selfInfo);
+
+              
+              }else if(streamAllPush.parentType == 'room_admin'){
+
+                 final data = MessagesInfoModel(
+                  messageId: streamAllPush.pushId,
+                  chatId: streamAllPush.parentId,
+                  userId: streamAllPush.subId,
+                  messageType: 'system',
+                  messageContent: 'is admin now',
+                  messageStatus: '3',
+                  token: streamAllPush.pushId,
+                  sentAt: timestamp.toString(),
+                  deliveredAt: timestamp.toString(),
+                  readAt: timestamp.toString(),
+                  );
+
+               messagesUpdate(data, selfInfo);
+
 
               }else if(streamAllPush.parentType == 'notification_user_remove'){
 
@@ -548,15 +609,9 @@ await _dataServices.saveValue('isFree', 'true');
               getSelfInfo.agefrom = jsonData!.agefrom;
               getSelfInfo.ageto = jsonData!.ageto;
               getSelfInfo.status = jsonData!.status;
-              getSelfInfo.statusChange = jsonData!.statusChange;
-              getSelfInfo.timeOut = jsonData!.timeOut;
-              getSelfInfo.lastUpdateAt = jsonData!.lastUpdateAt;
-              getSelfInfo.lastMomentAt = jsonData!.lastMomentAt;
               getSelfInfo.lastSeenAt = jsonData!.lastSeenAt;
               getSelfInfo.latitude = jsonData!.latitude;
               getSelfInfo.longitude = jsonData!.longitude;
-              getSelfInfo.createdAt = jsonData!.createdAt;
-              getSelfInfo.createdIp = jsonData!.createdIp;
               getSelfInfo.offset = jsonData!.offset;
 
               getSelfInfo.save();    
@@ -597,7 +652,7 @@ await _dataServices.saveValue('isFree', 'true');
 
     final messageBox = MessagesBox.getData();
 
-      final isMessageExist = messageBox.values.where((elementMessage) => elementMessage.chatId == chatId && elementMessage.userId == userId);
+      final isMessageExist = messageBox.values.where((elementMessage) => elementMessage.chatId == chatId && elementMessage.userId == userId && elementMessage.messageType != 'system');
 
               if(isMessageExist.isNotEmpty){
 
@@ -605,7 +660,7 @@ await _dataServices.saveValue('isFree', 'true');
 
                   final messageKey = message.key;
                   
-                  User().deleteMessage(messageKey);
+                  messageBox.delete(messageKey);
 
                 }            
   
@@ -619,7 +674,7 @@ Future<bool> deleteConversation(chatId) async {
 
   final messageBox = MessagesBox.getData();
 
-      final isMessageExist = messageBox.values.where((elementMessage) => elementMessage.chatId == chatId);
+      final isMessageExist = messageBox.values.where((elementMessage) => elementMessage.chatId == chatId && elementMessage.messageType != 'system');
 
               if(isMessageExist.isNotEmpty){
 
@@ -627,7 +682,7 @@ Future<bool> deleteConversation(chatId) async {
 
                   final messageKey = message.key;
                   
-                  User().deleteMessage(messageKey);
+                  messageBox.delete(messageKey);
 
                 }            
   
@@ -643,7 +698,7 @@ Future<bool> deleteConversation(chatId) async {
 
                   final chatKey = chat.key;
                   
-                  User().deleteChat(chatKey);
+                  chatBox.delete(chatKey);
 
                 }            
   
@@ -658,16 +713,16 @@ Future<bool> deleteMessages(chatId, userId) async {
 
   final messageBox = MessagesBox.getData();
 
-      final isMessageExist = messageBox.values.where((elementMessage) => elementMessage.chatId == chatId && elementMessage.userId == userId);
+      final isMessageExist = messageBox.values.where((elementMessage) => elementMessage.chatId == chatId && elementMessage.userId == userId && elementMessage.messageType != 'system');
 
               if(isMessageExist.isNotEmpty){
 
                 for (var message in isMessageExist) {
 
                   final messageKey = message.key;
-                  
-                  User().deleteMessage(messageKey);
 
+                  messageBox.delete(messageKey);
+                  
                 }            
   
               }
@@ -689,7 +744,7 @@ Future<bool> deleteNotifications(parentId, subId) async {
 
                   final notificationKey = notification.key;
                   
-                  User().deleteNotification(notificationKey);
+                  notificationBox.delete(notificationKey);
 
                 }            
   
@@ -948,6 +1003,8 @@ await _dataServices.saveValue('isFree', 'true');
                 try{
               messageBox.add(data);
 
+              if(message.messageType !='system'){
+
               if(selfInfo?.userId != message.userId){
 
               var notificationTitle = 'New Message'; 
@@ -990,6 +1047,8 @@ await _dataServices.saveValue('isFree', 'true');
               NotificationService.pushMessage(id: int.parse(message.chatId), title: notificationTitle, body: notificationBody);
 
               }
+
+                }
 
                }
                catch (error) {
@@ -1056,7 +1115,7 @@ await _dataServices.saveValue('isFree', 'true');
                   totalParticipants: chat.value.totalParticipants,
                   totalMessages: chat.value.totalMessages,
                   lastMessageAt: chat.value.lastMessageAt,
-                  admin: chat.value.admin,
+                  adminId: chat.value.adminId,
                   joined: chat.value.joined,
               );
 
@@ -1070,7 +1129,7 @@ await _dataServices.saveValue('isFree', 'true');
                 chatRow.totalParticipants = chat.value.totalParticipants;
                 chatRow.totalMessages = chat.value.totalMessages;
                 chatRow.lastMessageAt = chat.value.lastMessageAt;
-                chatRow.admin = chat.value.admin;
+                chatRow.adminId = chat.value.adminId;
                 chatRow.joined = chat.value.joined;
                 chatRow.save();
 

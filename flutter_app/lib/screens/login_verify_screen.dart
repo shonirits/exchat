@@ -211,15 +211,9 @@ _longitude = position.longitude.toString();
         agefrom: selfData!.agefrom,
         ageto: selfData!.ageto,
         status: selfData!.status,
-        statusChange: selfData!.statusChange,
-        timeOut: selfData!.timeOut,
-        lastUpdateAt: selfData!.lastUpdateAt,
-        lastMomentAt: selfData!.lastMomentAt,
         lastSeenAt: selfData!.lastSeenAt,
         latitude: selfData!.latitude,
         longitude: selfData!.longitude,
-        createdAt: selfData!.createdAt,
-        createdIp: selfData!.createdIp,
         offset: selfData!.offset,
          ) ;
 

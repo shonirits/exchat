@@ -24,6 +24,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
   final _dataServices = DataServices();  
+  final _preferencesServices = PreferencesServices();
 
    @override
   void initState() {
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             User().is_signed_in().then((status) {
 
-              Future.delayed(Duration.zero, () {
+              Future.delayed(Duration.zero, () async {
 
               if (status == true) {        
         //navigate to home screen
@@ -126,6 +127,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
       } else {
         //navigate to login screen
+        await _preferencesServices.saveValue('state', 'logout', 'string'); 
+        await _preferencesServices.saveValue('is_logged_in', false, 'bool');
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => LoginScreen()),

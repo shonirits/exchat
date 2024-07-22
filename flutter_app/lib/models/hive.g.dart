@@ -27,23 +27,17 @@ class SelfInfoModelAdapter extends TypeAdapter<SelfInfoModel> {
       agefrom: fields[7] as String?,
       ageto: fields[8] as String?,
       status: fields[9] as String?,
-      statusChange: fields[10] as String?,
-      timeOut: fields[11] as String?,
-      lastUpdateAt: fields[12] as String?,
-      lastMomentAt: fields[13] as String?,
-      lastSeenAt: fields[14] as String?,
-      latitude: fields[15] as String?,
-      longitude: fields[16] as String?,
-      createdAt: fields[17] as String?,
-      createdIp: fields[18] as String?,
-      offset: fields[19] as String?,
+      lastSeenAt: fields[10] as String?,
+      latitude: fields[11] as String?,
+      longitude: fields[12] as String?,
+      offset: fields[13] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SelfInfoModel obj) {
     writer
-      ..writeByte(20)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.userId)
       ..writeByte(1)
@@ -65,24 +59,12 @@ class SelfInfoModelAdapter extends TypeAdapter<SelfInfoModel> {
       ..writeByte(9)
       ..write(obj.status)
       ..writeByte(10)
-      ..write(obj.statusChange)
-      ..writeByte(11)
-      ..write(obj.timeOut)
-      ..writeByte(12)
-      ..write(obj.lastUpdateAt)
-      ..writeByte(13)
-      ..write(obj.lastMomentAt)
-      ..writeByte(14)
       ..write(obj.lastSeenAt)
-      ..writeByte(15)
+      ..writeByte(11)
       ..write(obj.latitude)
-      ..writeByte(16)
+      ..writeByte(12)
       ..write(obj.longitude)
-      ..writeByte(17)
-      ..write(obj.createdAt)
-      ..writeByte(18)
-      ..write(obj.createdIp)
-      ..writeByte(19)
+      ..writeByte(13)
       ..write(obj.offset);
   }
 
@@ -168,7 +150,7 @@ class ChatsInfoModelAdapter extends TypeAdapter<ChatsInfoModel> {
       totalParticipants: fields[5] as String?,
       totalMessages: fields[6] as String?,
       lastMessageAt: fields[7] as String?,
-      admin: fields[8] as String?,
+      adminId: fields[8] as String?,
       joined: fields[9] as String?,
     );
   }
@@ -194,7 +176,7 @@ class ChatsInfoModelAdapter extends TypeAdapter<ChatsInfoModel> {
       ..writeByte(7)
       ..write(obj.lastMessageAt)
       ..writeByte(8)
-      ..write(obj.admin)
+      ..write(obj.adminId)
       ..writeByte(9)
       ..write(obj.joined);
   }
